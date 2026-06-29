@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Laura Fraiz · Treino</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap');
+
+  :root {
+    --white: #FFFFFF;
+    --rose-pale: #FDF0EE;
+    --rose-light: #F7D5D0;
+    --rose: #E8948A;
+    --rose-mid: #D97068;
+    --red: #C0392B;
+    --red-deep: #962D22;
+    --charcoal: #1E1412;
+    --mid: #6B3D38;
+    --soft: #AC7570;
+    --border: #EDD4D0;
+    --bg: #FBF5F4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--charcoal);
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--white);
+    padding: 18px 20px 0;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(192,57,43,0.08);
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--red);
+    letter-spacing: -0.3px;
+  }
+  .logo span { color: var(--charcoal); }
+  .header-sub {
+    font-size: 10.5px;
+    color: var(--soft);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* DICA BANNER */
+  .tip-banner {
+    background: linear-gradient(135deg, var(--red) 0%, var(--rose-mid) 100%);
+    border-radius: 12px;
+    padding: 11px 14px;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .tip-text {
+    font-size: 12px;
+    color: rgba(255,255,255,0.95);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .tip-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 2px;
+  }
+
+  /* NAV TABS */
+  .nav {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+  .nav-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 10px 2px 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10.5px;
+    font-weight: 500;
+    color: var(--soft);
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    position: relative;
+    transition: color 0.2s;
+  }
+  .nav-btn.active { color: var(--red); font-weight: 700; }
+  .nav-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 10%; width: 80%; height: 3px;
+    background: linear-gradient(90deg, var(--rose), var(--red));
+    border-radius: 2px 2px 0 0;
+  }
+
+  /* PAGES */
+  .page { display: none; padding: 14px 14px 100px; }
+  .page.active { display: block; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--charcoal);
+    margin-bottom: 4px;
+  }
+  .section-sub { font-size: 12px; color: var(--soft); margin-bottom: 14px; }
+
+  /* TREINO: semana selector */
+  .week-mini {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, var(--rose-pale) 0%, var(--white) 60%);
+    border: 1.5px solid var(--rose-light);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    gap: 10px;
+    justify-content: space-between;
+  }
+  .week-mini-nav {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    border: 1.5px solid var(--rose-light);
+    background: var(--white);
+    color: var(--red);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+  .week-mini-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+  .week-mini-label {
+    font-size: 13px; font-weight: 600; color: var(--charcoal); text-align: center;
+  }
+  .week-mini-date { font-size: 10.5px; color: var(--soft); text-align: center; }
+
+  /* TREINO SELECTOR PILLS */
+  .treino-pills {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .treino-pill {
+    flex: 1;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 0;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--mid);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .treino-pill.active {
+    background: var(--red);
+    border-color: var(--red);
+    color: white;
+  }
+
+  /* EXERCISE CARD */
+  .exercise-card {
+    background: var(--white);
+    border-radius: 13px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .exercise-card.done { opacity: 0.55; }
+  .exercise-header {
+    display: flex;
+    align-items: center;
+    padding: 13px 14px;
+    gap: 11px;
+    cursor: pointer;
+  }
+  .check-circle {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .check-circle.checked { background: var(--red); border-color: var(--red); }
+  .check-circle.checked::after { content: '✓'; color: white; font-size: 13px; font-weight: 700; }
+  .exercise-info { flex: 1; min-width: 0; }
+  .exercise-name { font-size: 14px; font-weight: 600; color: var(--charcoal); margin-bottom: 3px; }
+  .exercise-meta { display: flex; gap: 5px; flex-wrap: wrap; }
+  .meta-tag {
+    font-size: 10px; color: var(--mid);
+    background: var(--rose-pale);
+    border-radius: 4px; padding: 2px 7px;
+  }
+  .rpe-tag { background: var(--red); color: white; font-weight: 600; }
+  .exercise-expand-icon {
+    font-size: 16px; color: var(--soft);
+    transition: transform 0.2s; flex-shrink: 0;
+  }
+  .exercise-card.expanded .exercise-expand-icon { transform: rotate(180deg); }
+
+  /* EXERCISE DETAILS */
+  .exercise-details {
+    display: none;
+    padding: 0 14px 14px;
+    border-top: 1px solid var(--border);
+    background: var(--rose-pale);
+  }
+  .exercise-card.expanded .exercise-details { display: block; }
+  .detail-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 9px 0; border-bottom: 1px solid var(--border);
+  }
+  .detail-row:last-of-type { border-bottom: none; }
+  .detail-label { font-size: 10.5px; color: var(--soft); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; flex-shrink: 0; }
+  .detail-value { font-size: 12.5px; color: var(--charcoal); font-weight: 500; text-align: right; max-width: 62%; }
+
+  /* CARGA INPUT */
+  .carga-section {
+    margin-top: 10px;
+    background: var(--white);
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid var(--rose-light);
+  }
+  .carga-title { font-size: 10.5px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .carga-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .carga-label { font-size: 12px; color: var(--mid); min-width: 68px; }
+  .carga-input {
+    flex: 1; border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 7px 10px; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; color: var(--charcoal); background: var(--bg);
+    transition: border-color 0.15s;
+  }
+  .carga-input:focus { outline: none; border-color: var(--red); }
+  .carga-unit { font-size: 11px; color: var(--soft); min-width: 20px; }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    background: var(--white); border-radius: 12px;
+    padding: 13px 14px; margin-bottom: 12px; border: 1px solid var(--border);
+  }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+  .progress-label { font-size: 11px; font-weight: 700; color: var(--mid); text-transform: uppercase; letter-spacing: 0.5px; }
+  .progress-count { font-size: 13px; font-weight: 700; color: var(--red); }
+  .progress-bar { height: 6px; background: var(--rose-light); border-radius: 3px; overflow: hidden; }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rose), var(--red));
+    border-radius: 3px; transition: width 0.4s ease;
+  }
+
+  /* FINISH BTN */
+  .finish-btn {
+    width: 100%; background: var(--red); color: white;
+    border: none; border-radius: 12px; padding: 14px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; margin-top: 10px; transition: background 0.2s; letter-spacing: 0.3px;
+  }
+  .finish-btn:hover { background: var(--red-deep); }
+
+  /* MOBILIDADE CARD */
+  .mobilidade-card {
+    background: linear-gradient(135deg, var(--rose-light), var(--rose-pale));
+    border: 1px solid var(--rose-light);
+    border-radius: 13px; padding: 12px 14px; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .mob-icon { font-size: 20px; }
+  .mob-text { font-size: 13px; color: var(--red); font-weight: 600; }
+  .mob-sub { font-size: 11px; color: var(--soft); margin-top: 2px; }
+
+  /* ======================== */
+  /* GUIA PAGE                */
+  /* ======================== */
+
+  /* RPE scale at top of guia */
+  .rpe-scale {
+    background: var(--white);
+    border: 1.5px solid var(--rose-light);
+    border-radius: 14px;
+    padding: 14px 14px 10px;
+    margin-bottom: 14px;
+  }
+  .rpe-scale-title {
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--soft); margin-bottom: 12px;
+  }
+  .rpe-track {
+    display: flex; gap: 5px; align-items: flex-end; margin-bottom: 0;
+  }
+  .rpe-bar-wrap {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    cursor: pointer;
+  }
+  .rpe-bar {
+    width: 100%; border-radius: 5px 5px 0 0;
+    transition: filter 0.15s;
+  }
+  .rpe-bar-wrap:hover .rpe-bar { filter: brightness(1.1); }
+  .rpe-bar-num {
+    font-size: 11px; font-weight: 800;
+  }
+  .rpe-bar-desc {
+    font-size: 9px; color: var(--soft); text-align: center;
+    line-height: 1.3; margin-top: 1px;
+  }
+
+  .guia-exercise {
+    background: var(--white);
+    border-radius: 13px; margin-bottom: 8px;
+    border: 1px solid var(--border); overflow: hidden;
+  }
+  .guia-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 14px; cursor: pointer;
+  }
+  .guia-name { font-size: 14px; font-weight: 600; color: var(--charcoal); }
+  .guia-focus {
+    font-size: 10.5px; color: var(--red);
+    background: var(--rose-pale); padding: 2px 8px;
+    border-radius: 10px; margin-top: 3px; display: inline-block;
+  }
+  .guia-body { display: none; padding: 0 14px 14px; border-top: 1px solid var(--border); background: var(--rose-pale); }
+  .guia-exercise.open .guia-body { display: block; }
+  .guia-exercise.open .exercise-expand-icon { transform: rotate(180deg); }
+  .guia-section { margin-top: 11px; }
+  .guia-section-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--soft); margin-bottom: 4px; }
+  .guia-section-text { font-size: 13px; color: var(--charcoal); line-height: 1.6; }
+  .guia-section-text.erro { color: var(--red); }
+  .guia-section-text.dica { color: var(--red-deep); font-style: italic; }
+
+  /* AVALIAÇÃO */
+  .week-selector {
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(135deg, var(--rose-pale), var(--white));
+    border-radius: 12px;
+    padding: 12px 14px; margin-bottom: 14px;
+    border: 1.5px solid var(--rose-light);
+  }
+  .week-nav {
+    width: 32px; height: 32px; border-radius: 8px;
+    border: 1.5px solid var(--rose-light); background: var(--white);
+    color: var(--red); font-size: 16px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .week-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+  .week-label { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--charcoal); }
+  .week-date { font-size: 11px; color: var(--soft); text-align: center; }
+
+  .avaliacao-form {
+    background: var(--white); border-radius: 14px;
+    padding: 16px; border: 1px solid var(--border); margin-bottom: 12px;
+  }
+  .form-group { margin-bottom: 14px; }
+  .form-label {
+    font-size: 10.5px; font-weight: 700; color: var(--soft);
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: block;
+  }
+
+  /* VOLUME slider for humor */
+  .volume-row {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .volume-label { font-size: 11px; color: var(--soft); min-width: 32px; }
+  .volume-label.right { text-align: right; }
+  .volume-slider {
+    flex: 1; -webkit-appearance: none; appearance: none;
+    height: 6px; border-radius: 3px; outline: none; cursor: pointer;
+    background: linear-gradient(to right, var(--rose-light) 0%, var(--red) 100%);
+  }
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 22px; height: 22px;
+    border-radius: 50%; background: var(--red);
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(192,57,43,0.3);
+    cursor: pointer;
+  }
+  .volume-val {
+    font-size: 13px; font-weight: 700; color: var(--red);
+    min-width: 22px; text-align: center;
+  }
+
+  /* STARS */
+  .star-row { display: flex; gap: 4px; }
+  .star-btn {
+    background: none; border: none;
+    font-size: 24px; cursor: pointer;
+    opacity: 0.2; transition: opacity 0.15s, transform 0.15s; padding: 1px;
+  }
+  .star-btn.active { opacity: 1; }
+  .star-btn:hover { transform: scale(1.15); }
+
+  /* level pills for dor */
+  .level-row { display: flex; gap: 5px; }
+  .level-btn {
+    flex: 1; border: 2px solid var(--border);
+    border-radius: 8px; padding: 7px 4px;
+    font-size: 11px; font-weight: 600; color: var(--mid);
+    background: var(--bg); cursor: pointer;
+    text-align: center; transition: all 0.15s;
+  }
+  .level-btn.sel-0 { border-color: #27AE60; background: #EAF7EE; color: #27AE60; }
+  .level-btn.sel-1 { border-color: var(--rose); background: var(--rose-pale); color: var(--rose-mid); }
+  .level-btn.sel-2 { border-color: var(--rose-mid); background: var(--rose-pale); color: var(--red); }
+  .level-btn.sel-3 { border-color: var(--red); background: #FEE; color: var(--red); }
+
+  .freq-input {
+    width: 100%; border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 9px 12px; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; background: var(--bg); color: var(--charcoal);
+  }
+  .freq-input:focus { outline: none; border-color: var(--red); }
+  .obs-input {
+    width: 100%; border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 8px 10px; font-family: 'DM Sans', sans-serif;
+    font-size: 12px; color: var(--charcoal); background: var(--bg);
+    resize: none; min-height: 54px; margin-top: 6px;
+  }
+  .obs-input:focus { outline: none; border-color: var(--red); }
+  .save-btn {
+    width: 100%; background: var(--red); color: white;
+    border: none; border-radius: 12px; padding: 14px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; margin-top: 4px; transition: background 0.2s;
+  }
+  .save-btn:hover { background: var(--red-deep); }
+
+  /* HISTÓRICO */
+  .historico-empty { text-align: center; color: var(--soft); font-size: 13px; padding: 40px 20px; }
+  .hist-card {
+    background: var(--white); border-radius: 12px;
+    padding: 13px 14px; margin-bottom: 8px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--rose);
+  }
+  .hist-week { font-weight: 700; font-size: 13px; color: var(--red); margin-bottom: 8px; }
+  .hist-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--mid); margin-bottom: 4px; }
+  .hist-val { font-weight: 500; color: var(--charcoal); }
+
+  /* PERFIL */
+  .perfil-hero {
+    background: linear-gradient(135deg, var(--red) 0%, var(--rose-mid) 100%);
+    border-radius: 16px; padding: 20px 18px; margin-bottom: 14px;
+    color: white; position: relative; overflow: hidden;
+  }
+  .perfil-hero::before {
+    content: '';
+    position: absolute; right: -30px; top: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+  }
+  .perfil-name { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 4px; }
+  .perfil-age { font-size: 12px; opacity: 0.85; margin-bottom: 14px; }
+  .perfil-stats { display: flex; gap: 10px; }
+  .perfil-stat { background: rgba(255,255,255,0.18); border-radius: 10px; padding: 8px 12px; flex: 1; }
+  .perfil-stat-val { font-size: 16px; font-weight: 700; }
+  .perfil-stat-label { font-size: 10px; opacity: 0.8; margin-top: 2px; }
+
+  .perfil-section {
+    background: var(--white); border-radius: 14px;
+    padding: 14px; margin-bottom: 10px; border: 1px solid var(--border);
+  }
+  .perfil-section-title {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.7px; color: var(--soft); margin-bottom: 10px;
+  }
+  .perfil-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 7px 0; border-bottom: 1px solid var(--rose-pale); font-size: 13px;
+  }
+  .perfil-row:last-child { border-bottom: none; }
+  .perfil-key { color: var(--soft); }
+  .perfil-val { font-weight: 600; color: var(--charcoal); }
+
+  .alert-tag {
+    background: #FEE; color: var(--red-deep);
+    border: 1px solid var(--rose-light);
+    border-radius: 8px; padding: 10px 12px;
+    font-size: 12.5px; line-height: 1.5; margin-top: 10px;
+  }
+  .alert-tag strong { display: block; font-size: 9.5px; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 3px; color: var(--red); }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 80px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--red); color: white;
+    padding: 12px 22px; border-radius: 20px;
+    font-size: 13px; font-weight: 500;
+    opacity: 0; transition: all 0.3s; z-index: 1000;
+    white-space: nowrap; box-shadow: 0 4px 20px rgba(192,57,43,0.35);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="logo">Laura<span>·Fit</span></div>
+      <div class="header-sub">Consultoria de Exercícios</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:10px;color:var(--soft)">Início</div>
+      <div style="font-size:12.5px;font-weight:600;color:var(--charcoal)">22 Jun 2025</div>
+    </div>
+  </div>
+
+  <div class="tip-banner">
+    <div class="tip-icon">💡</div>
+    <div>
+      <div class="tip-label">Dica essencial</div>
+      <div class="tip-text">Mantenha a respiração controlada para contração do abdômen — isso melhora a maioria dos movimentos.</div>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showPage('treino',this)">Treino</button>
+    <button class="nav-btn" onclick="showPage('guia',this)">Guia</button>
+    <button class="nav-btn" onclick="showPage('avaliacao',this)">Semana</button>
+    <button class="nav-btn" onclick="showPage('historico',this)">Histórico</button>
+    <button class="nav-btn" onclick="showPage('perfil',this)">Perfil</button>
+  </nav>
+</div>
+
+<!-- TREINO PAGE -->
+<div id="page-treino" class="page active">
+
+  <div class="treino-pills" style="margin-top:6px">
+    <button class="treino-pill active" onclick="setTreino('A',this)">Treino A</button>
+    <button class="treino-pill" onclick="setTreino('B',this)">Treino B</button>
+    <button class="treino-pill" onclick="setTreino('C',this)">Treino C</button>
+  </div>
+
+  <!-- week mini selector -->
+  <div class="week-mini">
+    <button class="week-mini-nav" id="tw-prev" onclick="changeTreinoWeek(-1)">‹</button>
+    <div>
+      <div class="week-mini-label" id="tw-label">Semana 1</div>
+      <div class="week-mini-date" id="tw-date"></div>
+    </div>
+    <button class="week-mini-nav" id="tw-next" onclick="changeTreinoWeek(1)">›</button>
+  </div>
+
+  <div id="treino-content"></div>
+</div>
+
+<!-- GUIA PAGE -->
+<div id="page-guia" class="page">
+  <!-- RPE Scale -->
+  <div class="rpe-scale" style="margin-top:6px">
+    <div class="rpe-scale-title">Escala de Intensidade — RPE</div>
+    <div class="rpe-track" id="rpe-track"></div>
+
+  </div>
+  <div id="guia-content"></div>
+</div>
+
+<!-- AVALIAÇÃO PAGE -->
+<div id="page-avaliacao" class="page">
+  <div style="margin-bottom:14px;margin-top:4px">
+    <div class="section-title">Avaliação Semanal</div>
+    <div class="section-sub">Registre como foi sua semana</div>
+  </div>
+
+  <div class="week-selector">
+    <button class="week-nav" id="prev-week" onclick="changeWeek(-1)">‹</button>
+    <div style="text-align:center">
+      <div class="week-label" id="week-label">Semana 1</div>
+      <div class="week-date" id="week-date"></div>
+    </div>
+    <button class="week-nav" id="next-week" onclick="changeWeek(1)">›</button>
+  </div>
+
+  <div class="avaliacao-form">
+    <div class="form-group">
+      <label class="form-label">Frequência (dias treinados)</label>
+      <input type="number" class="freq-input" id="freq-input" min="0" max="7" placeholder="Ex: 3">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Humor</label>
+      <div class="volume-row">
+        <span class="volume-label" style="font-size:16px">😔</span>
+        <input type="range" class="volume-slider" id="humor-slider" min="1" max="5" value="3" oninput="updateVolume('humor',this.value)">
+        <span class="volume-label" style="font-size:16px">😄</span>
+        <span class="volume-val" id="humor-val">3</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Energia</label>
+      <div class="volume-row">
+        <span class="volume-label" style="font-size:16px">🪫</span>
+        <input type="range" class="volume-slider" id="energia-slider" min="1" max="5" value="3" oninput="updateVolume('energia',this.value)">
+        <span class="volume-label" style="font-size:16px">🔋</span>
+        <span class="volume-val" id="energia-val">3</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Dificuldade</label>
+      <div class="star-row" id="dificuldade-stars">
+        <button class="star-btn" onclick="setStar('dificuldade',1)">★</button>
+        <button class="star-btn" onclick="setStar('dificuldade',2)">★</button>
+        <button class="star-btn" onclick="setStar('dificuldade',3)">★</button>
+        <button class="star-btn" onclick="setStar('dificuldade',4)">★</button>
+        <button class="star-btn" onclick="setStar('dificuldade',5)">★</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Dor ou desconforto</label>
+      <div class="level-row" id="dor-row">
+        <button class="level-btn" onclick="setLevel('dor',0,this)">Sem dor</button>
+        <button class="level-btn" onclick="setLevel('dor',1,this)">Leve</button>
+        <button class="level-btn" onclick="setLevel('dor',2,this)">Moderado</button>
+        <button class="level-btn" onclick="setLevel('dor',3,this)">Forte</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Sono</label>
+      <div class="star-row" id="sono-stars">
+        <button class="star-btn" onclick="setStar('sono',1)">★</button>
+        <button class="star-btn" onclick="setStar('sono',2)">★</button>
+        <button class="star-btn" onclick="setStar('sono',3)">★</button>
+        <button class="star-btn" onclick="setStar('sono',4)">★</button>
+        <button class="star-btn" onclick="setStar('sono',5)">★</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Alimentação</label>
+      <div class="star-row" id="alimentacao-stars">
+        <button class="star-btn" onclick="setStar('alimentacao',1)">★</button>
+        <button class="star-btn" onclick="setStar('alimentacao',2)">★</button>
+        <button class="star-btn" onclick="setStar('alimentacao',3)">★</button>
+        <button class="star-btn" onclick="setStar('alimentacao',4)">★</button>
+        <button class="star-btn" onclick="setStar('alimentacao',5)">★</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Observações</label>
+      <textarea class="obs-input" id="semana-obs" placeholder="Como foi a semana? Alguma observação..." rows="3"></textarea>
+    </div>
+
+    <button class="save-btn" onclick="saveWeek()">Salvar semana</button>
+  </div>
+</div>
+
+<!-- HISTÓRICO PAGE -->
+<div id="page-historico" class="page">
+  <div style="margin-bottom:14px;margin-top:4px">
+    <div class="section-title">Histórico</div>
+    <div class="section-sub">Acompanhe sua evolução</div>
+  </div>
+  <div id="historico-content"></div>
+</div>
+
+<!-- PERFIL PAGE -->
+<div id="page-perfil" class="page">
+  <div style="margin-bottom:14px;margin-top:4px">
+    <div class="section-title">Perfil</div>
+    <div class="section-sub">Suas informações pessoais</div>
+  </div>
+
+  <div class="perfil-hero">
+    <div class="perfil-name">Laura Fraiz</div>
+    <div class="perfil-age">30 anos · Início 22/06/2025</div>
+    <div class="perfil-stats">
+      <div class="perfil-stat">
+        <div class="perfil-stat-val">63kg</div>
+        <div class="perfil-stat-label">Peso</div>
+      </div>
+      <div class="perfil-stat">
+        <div class="perfil-stat-val">1,59m</div>
+        <div class="perfil-stat-label">Altura</div>
+      </div>
+      <div class="perfil-stat">
+        <div class="perfil-stat-val">24,9</div>
+        <div class="perfil-stat-label">IMC</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="perfil-section">
+    <div class="perfil-section-title">Dados Gerais</div>
+    <div class="perfil-row"><span class="perfil-key">Nome</span><span class="perfil-val">Laura Fraiz</span></div>
+    <div class="perfil-row"><span class="perfil-key">Idade</span><span class="perfil-val">30 anos</span></div>
+    <div class="perfil-row"><span class="perfil-key">Peso</span><span class="perfil-val">63 kg</span></div>
+    <div class="perfil-row"><span class="perfil-key">Altura</span><span class="perfil-val">1,59 m</span></div>
+    <div class="perfil-row"><span class="perfil-key">Início</span><span class="perfil-val">22 de junho de 2025</span></div>
+    <div class="perfil-row"><span class="perfil-key">Duração</span><span class="perfil-val">24 semanas</span></div>
+  </div>
+
+  <div class="perfil-section">
+    <div class="perfil-section-title">Objetivo</div>
+    <div class="perfil-row"><span class="perfil-key">Meta principal</span><span class="perfil-val">Saúde em geral</span></div>
+  </div>
+
+  <div class="perfil-section">
+    <div class="perfil-section-title">Restrições e Observações</div>
+    <div class="alert-tag">
+      <strong>⚠ Atenção</strong>
+      Dores relatadas em quadril e escápulas. Respeite os limites do corpo e comunique ao profissional caso ocorra dor durante os exercícios.
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ========================
+// DATA
+// ========================
+const treinoA = [
+  { nome: 'Mobilidade', series: '2 séries', descanso: '45s', intensidade: 'Leve', objetivo: 'Articulações', tipo: 'mobilidade' },
+  { nome: 'Elevação Pélvica', series: '4×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Desenvolvimento glúteo / posterior de coxa', carga: true },
+  { nome: 'Agachamento no Smith', series: '4×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Fortalecimento de quadríceps', carga: true },
+  { nome: 'Cadeira Extensora', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Isolamento de quadríceps', carga: true },
+  { nome: 'Cadeira Abdutora', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Fortalecimento glúteo médio', carga: true },
+  { nome: 'Step Up', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Estabilidade unilateral / glúteos', carga: true },
+  { nome: 'Passada', series: '3×10', descanso: '1min', intensidade: 'Peso do corpo', objetivo: 'Fortalecimento unilateral de quadríceps e estabilidade', carga: false },
+  { nome: 'Prancha', series: '3×30–40s', descanso: '1min', intensidade: 'Peso do corpo', objetivo: 'Estabilidade / core', carga: false },
+];
+
+const treinoB = [
+  { nome: 'Mobilidade', series: '2 séries', descanso: '45s', intensidade: 'Leve', objetivo: 'Articulações', tipo: 'mobilidade' },
+  { nome: 'Pulldown Frontal', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Fortalecimento de dorsais', carga: true },
+  { nome: 'Remada Baixa c/ Triângulo', series: '4×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Ganho de espessura das costas', carga: true },
+  { nome: 'Facepull na Polia', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Estabilidade dos ombros', carga: true },
+  { nome: 'Crucifixo Inverso', series: '4×10', descanso: '1min', intensidade: 'RPE 8', objetivo: 'Deltoides posterior e postura', carga: true },
+  { nome: 'Supino com Halteres', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Força de peitoral e tríceps', carga: true },
+  { nome: 'Desenvolvimento no Banco', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Força de ombros', carga: true },
+  { nome: 'Pallof Press', series: '3×12', descanso: '1min', intensidade: 'RPE 6', objetivo: 'Fortalecer core e estabilidade do tronco', carga: true },
+  { nome: 'Dead Bug', series: '3×10', descanso: '1min', intensidade: 'RPE 6', objetivo: 'Desenvolver o core profundo / estabilidade lombopélvica', carga: false },
+];
+
+const treinoC = [
+  { nome: 'Mobilidade', series: '2 séries', descanso: '45s', intensidade: 'Leve', objetivo: 'Articulações', tipo: 'mobilidade' },
+  { nome: 'Agachamento Sumo', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Desenvolvimento de glúteo / fortalecimento de quadríceps', carga: true },
+  { nome: 'Agachamento Búlgaro', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Hipertrofia de glúteo com foco unilateral', carga: true },
+  { nome: 'Mesa Flexora', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Desenvolvimento de isquiotibiais', carga: true },
+  { nome: 'Coice da Polia', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Isolamento e ativação glúteo máximo', carga: true },
+  { nome: 'Cadeira Adutora', series: '3×10', descanso: '1min', intensidade: 'RPE 7', objetivo: 'Ativação de adutores', carga: true },
+  { nome: 'Sequência de Abdominal', series: '3 séries', descanso: '1min 30s', intensidade: 'Peso do corpo', objetivo: 'Abdominal / Core / Estabilidade', carga: false },
+];
+
+const guiaData = [
+  { nome:'Mobilidade', foco:'Articulações', como:'Realize movimentos lentos e controlados buscando amplitude sem compensação.', erro:'Fazer rápido com pouca amplitude.', dica:'Priorize qualidade do movimento e não velocidade.' },
+  { nome:'Elevação Pélvica', foco:'Glúteo máximo', como:'Cinto um palmo abaixo da cintura no início da coxa. Contrai o glúteo no topo, sobe empurrando para cima. Expira quando sobe, inspira quando desce. Controle o abdômen para não pesar a lombar.', erro:'Hiperestender a lombar em vez de contrair os glúteos.', dica:'Empurre o chão com os calcanhares.' },
+  { nome:'Agachamento no Smith', foco:'Quadríceps', como:'Posicione a barra sobre os trapézios. Agache flexionando o joelho na sua confortável amplitude e retorne empurrando o chão.', erro:'Joelhos colapsando para dentro ou perder a postura inclinando demais a coluna.', dica:'Mantenha o abdômen firme durante todo o movimento.' },
+  { nome:'Cadeira Extensora', foco:'Quadríceps', como:'Pés levemente virados para fora, sem estender totalmente os joelhos. Segura na força e desce controlado.', erro:'Travar os joelhos, superestender, pés relaxados ou movimento em gangorra contínuo.', dica:'Suba contando 2 e desça contando 3.' },
+  { nome:'Cadeira Abdutora', foco:'Glúteo médio e abdutores', como:'Abra as pernas contando 2, fecha contando 3. Peso moderado. Segure 2s na contração máxima.', erro:'Inclinar o tronco ou deixar o peso sem controle na volta.', dica:'Mantenha o tronco firme e foque em sentir a lateral do glúteo.' },
+  { nome:'Step Up', foco:'Glúteos e estabilidade unilateral', como:'Apoie todo o pé no banco, coluna inclinada. Suba usando a força principal da perna que está no banco. Encoste a ponta do pé e volta.', erro:'Impulsionar excessivamente com a perna que desce para o chão.', dica:'Concentre a força na perna de cima e controle a descida.' },
+  { nome:'Passada', foco:'Coordenação, glúteos e quadríceps', como:'Passada com as pernas bem abertas e com amplitude. 10 repetições com peso e 10 sem peso.', erro:'Perder equilíbrio ou encurtar demais o passo.', dica:'Dê passos firmes e mantenha o corpo alinhado. Se necessário, abra mais as pernas para gerar equilíbrio.' },
+  { nome:'Prancha', foco:'Estabilidade do core', como:'Sustente o corpo alinhado apoiando antebraços e pés, mantendo a pelve neutra.', erro:'Elevar ou deixar o quadril cair.', dica:'Respire normalmente mantendo contração abdominal.' },
+  { nome:'Pulldown Frontal', foco:'Latíssimo do dorso', como:'Coluna inclinada na diagonal, longe da polia. Escápula encaixada e peito estufado. Puxa a corda para baixo até a cintura. Movimento de volta controlado.', erro:'Puxar com os braços, balançar o tronco, encolher os ombros.', dica:'Pense em levar os cotovelos para trás.' },
+  { nome:'Remada Baixa c/ Triângulo', foco:'Costas médias e dorsais', como:'Puxe o triângulo em direção ao abdômen retraindo as escápulas.', erro:'Curvar muito a lombar ou usar impulso.', dica:'Inicie o movimento fechando as escápulas antes de puxar os braços para trás.' },
+  { nome:'Facepull na Polia', foco:'Deltoide superior e manguito rotador', como:'Puxe a corda em direção ao rosto com cotovelos altos.', erro:'Abaixar os cotovelos da altura do ombro.', dica:'Finalize com rotação externa dos ombros.' },
+  { nome:'Crucifixo Inverso', foco:'Deltoide posterior e parte alta das costas', como:'Mão posicionada com pegada supinada na mesma linha do ombro. Abrir os braços e levar até a linha das costas. Segure 1–2 segundos na força e volta controladamente.', erro:'Jogar o corpo para trás ou usar impulso.', dica:'Mantenha tensão contínua durante toda a série.' },
+  { nome:'Supino com Halteres', foco:'Peitoral, deltoide anterior e tríceps', como:'Deite com os pés firmes no chão. Inicie o movimento de baixo para cima na altura do peito e empurre até quase estender os cotovelos. Desça de forma controlada.', erro:'Abrir demais os cotovelos, perder controle na descida ou arquear excessivamente a lombar.', dica:'Mantenha as escápulas levemente retraídas e empurre os halteres em direção ao teto.' },
+  { nome:'Desenvolvimento no Banco', foco:'Deltoides e estabilidade de ombros', como:'Empurre os halteres para cima da cabeça e retorne até a mão ficar na altura do nariz. Braços e mãos voltados mais para a diagonal.', erro:'Arquear excessivamente a lombar ou abrir os braços para trás demais.', dica:'Contraia o abdômen.' },
+  { nome:'Pallof Press', foco:'Core', como:'Posicione-se de lado para a polia, segurando com as duas mãos o puxador. Empurre os braços à frente e retorne lentamente.', erro:'Girar o tronco para o lado da carga na posição inicial.', dica:'Contraia o abdômen durante todo o movimento.' },
+  { nome:'Dead Bug', foco:'Controle do core e coordenação', como:'Deite de costas com braços estendidos e joelho dobrado a 90°. Estenda o braço para cima e uma das pernas para baixo enquanto a outra permanece dobrada. Retorne e troque o lado.', erro:'Tirar a lombar do chão.', dica:'Pressione levemente a lombar contra o solo para iniciar.' },
+  { nome:'Agachamento Sumo', foco:'Glúteos, adutores e posteriores de coxa', como:'Ideal com halter e step ou na máquina. Afaste bem os pés e mantenha as pontas para fora. Sente o quadril para trás durante a descida.', erro:'Deixar o joelho fechar ou perder postura da coluna.', dica:'Abra os joelhos acompanhando a linha dos pés. Coluna inclinada e peito aberto.' },
+  { nome:'Agachamento Búlgaro', foco:'Glúteos (hipertrofia unilateral)', como:'Apoie o pé de trás em um banco e mantenha o pé da frente firme no chão. Flexione o joelho até a amplitude confortável levando o quadril para trás. Retorne empurrando o solo.', erro:'Passo muito curto, joelho colapsando para dentro ou impulsionar com a perna de trás.', dica:'Deixe sempre o joelho alinhado com o pé.' },
+  { nome:'Mesa Flexora', foco:'Posterior de coxa (isquiotibiais)', como:'Flexione os joelhos aproximando os calcanhares dos glúteos e retorne lentamente, mantendo o quadril estável.', erro:'Tirar o quadril do banco ou usar impulso.', dica:'Controle a volta e mantenha abdômen ativo.' },
+  { nome:'Coice da Polia', foco:'Glúteo máximo', como:'Com a polia na altura do joelho, movimento de abaixar a perna. Coluna neutra, quadril levando a perna para trás sem movimentar a lombar. Retorne lentamente.', erro:'Arquear a lombar ou balançar o tronco.', dica:'O movimento deve acontecer no quadril e não nas costas.' },
+  { nome:'Cadeira Adutora', foco:'Glúteo médio e abdutores', como:'Abra as pernas contando 2, feche contando 3. Peso moderado. Segure 2s na contração máxima.', erro:'Inclinar o tronco ou deixar o peso sem controle na volta.', dica:'Mantenha o tronco firme e foque em sentir a lateral do glúteo.' },
+  { nome:'Sequência de Abdominal', foco:'Core / Abdominal', como:'Realize a sequência indicada pelo seu profissional, mantendo abdômen sempre contraído.', erro:'Dobrar o corpo na lombar ou respirar de forma solta em todo movimento.', dica:'Pense no movimento de mola do tatu bola. Deixe o abdômen sempre contraído.' },
+];
+
+// ========================
+// STATE
+// ========================
+const TOTAL_WEEKS = 24;
+let currentTreino = 'A';
+let currentTreinoWeek = 1;
+let currentWeek = 1;
+let currentStars = { dificuldade: 0, sono: 0, alimentacao: 0 };
+let currentDor = null;
+let currentHumor = 3;
+let currentEnergia = 3;
+
+let state = {};
+try { state = JSON.parse(localStorage.getItem('laurafit_state') || '{}'); } catch(e) { state = {}; }
+
+// ========================
+// TREINO WEEK
+// ========================
+function changeTreinoWeek(delta) {
+  currentTreinoWeek = Math.max(1, Math.min(TOTAL_WEEKS, currentTreinoWeek + delta));
+  updateTreinoWeekUI();
+  renderTreino();
+}
+
+function updateTreinoWeekUI() {
+  document.getElementById('tw-label').textContent = `Semana ${currentTreinoWeek}`;
+  const d = weekDate(currentTreinoWeek);
+  document.getElementById('tw-date').textContent = d;
+  document.getElementById('tw-prev').disabled = currentTreinoWeek <= 1;
+  document.getElementById('tw-next').disabled = currentTreinoWeek >= TOTAL_WEEKS;
+}
+
+function weekDate(w) {
+  const s = new Date('2025-06-22');
+  s.setDate(s.getDate() + (w-1)*7);
+  const e = new Date(s); e.setDate(e.getDate()+6);
+  const fmt = d => d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+  return `${fmt(s)} – ${fmt(e)}`;
+}
+
+// ========================
+// TREINO RENDER
+// ========================
+function setTreino(t, btn) {
+  currentTreino = t;
+  document.querySelectorAll('.treino-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderTreino();
+}
+
+function renderTreino() {
+  const map = { A: treinoA, B: treinoB, C: treinoC };
+  const exercicios = map[currentTreino];
+  const doneKey = `done_${currentTreino}_w${currentTreinoWeek}`;
+  const done = state[doneKey] || {};
+  const total = exercicios.filter(e => !e.tipo).length;
+  const doneCount = Object.values(done).filter(Boolean).length;
+
+  let html = `
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-count">${doneCount}/${total}</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${total?(doneCount/total*100):0}%"></div>
+      </div>
+    </div>
+  `;
+
+  exercicios.forEach((ex, i) => {
+    if (ex.tipo === 'mobilidade') {
+      html += `
+        <div class="mobilidade-card">
+          <div class="mob-icon">🔄</div>
+          <div>
+            <div class="mob-text">Mobilidade Articular</div>
+            <div class="mob-sub">${ex.series} · ${ex.descanso} · ${ex.intensidade}</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    const isDone = done[i] || false;
+    const cargaData = state[`carga_${currentTreino}_${i}_w${currentTreinoWeek}`] || {};
+    const expandId = `ex_${currentTreino}_${i}_w${currentTreinoWeek}`;
+
+    html += `
+      <div class="exercise-card${isDone?' done':''}" id="${expandId}">
+        <div class="exercise-header" onclick="toggleCard('${expandId}')">
+          <div class="check-circle${isDone?' checked':''}" onclick="toggleDone(event,'${currentTreino}',${i})"></div>
+          <div class="exercise-info">
+            <div class="exercise-name">${ex.nome}</div>
+            <div class="exercise-meta">
+              <span class="meta-tag">${ex.series}</span>
+              <span class="meta-tag">⏱ ${ex.descanso}</span>
+              <span class="meta-tag rpe-tag">${ex.intensidade}</span>
+            </div>
+          </div>
+          <div class="exercise-expand-icon">⌄</div>
+        </div>
+        <div class="exercise-details">
+          <div class="detail-row">
+            <span class="detail-label">Objetivo</span>
+            <span class="detail-value">${ex.objetivo}</span>
+          </div>
+          ${ex.carga?`
+          <div class="carga-section">
+            <div class="carga-title">📊 Progressão de Carga — Semana ${currentTreinoWeek}</div>
+            <div class="carga-row">
+              <span class="carga-label">Peso inicial</span>
+              <input class="carga-input" type="number" placeholder="0" value="${cargaData.inicial||''}"
+                onchange="saveCarga('${currentTreino}',${i},'inicial',this.value)">
+              <span class="carga-unit">kg</span>
+            </div>
+            <div class="carga-row">
+              <span class="carga-label">Progressão</span>
+              <input class="carga-input" type="number" placeholder="0" value="${cargaData.progressao||''}"
+                onchange="saveCarga('${currentTreino}',${i},'progressao',this.value)">
+              <span class="carga-unit">kg</span>
+            </div>
+            <div class="carga-row">
+              <span class="carga-label">Obs.</span>
+              <input class="carga-input" type="text" placeholder="Anotação..." value="${cargaData.obs||''}"
+                onchange="saveCarga('${currentTreino}',${i},'obs',this.value)">
+            </div>
+          </div>`:''}
+        </div>
+      </div>`;
+  });
+
+  html += `<button class="finish-btn" onclick="finishTreino()">
+    ${doneCount===total&&total>0?'🎉 Treino concluído! Incrível!':'✓ Finalizar Treino'}
+  </button>`;
+
+  document.getElementById('treino-content').innerHTML = html;
+}
+
+function toggleCard(id) {
+  document.getElementById(id).classList.toggle('expanded');
+}
+
+function toggleDone(e, treino, idx) {
+  e.stopPropagation();
+  const doneKey = `done_${treino}_w${currentTreinoWeek}`;
+  if (!state[doneKey]) state[doneKey] = {};
+  state[doneKey][idx] = !state[doneKey][idx];
+  saveState();
+  renderTreino();
+}
+
+function saveCarga(treino, idx, field, val) {
+  const key = `carga_${treino}_${idx}_w${currentTreinoWeek}`;
+  if (!state[key]) state[key] = {};
+  state[key][field] = val;
+  saveState();
+}
+
+function finishTreino() {
+  showToast('🎉 Treino salvo! Continue assim, Laura!');
+}
+
+// ========================
+// RPE SCALE RENDER
+// ========================
+function renderRpeScale() {
+  const levels = [
+    { n:6, color:'#E8948A', h:20, desc:'Confortável' },
+    { n:7, color:'#DE7A6F', h:34, desc:'Moderado' },
+    { n:8, color:'#D35C52', h:50, desc:'Difícil' },
+    { n:9, color:'#C0392B', h:64, desc:'Quase no limite' },
+    { n:10, color:'#962D22', h:78, desc:'Esforço máximo' },
+  ];
+  let html = '';
+  levels.forEach(l => {
+    html += `
+      <div class="rpe-bar-wrap" onclick="showRpeInfo(${l.n})">
+        <div class="rpe-bar" style="height:${l.h}px;background:${l.color}"></div>
+        <div class="rpe-bar-num" style="color:${l.color}">${l.n}</div>
+        <div class="rpe-bar-desc">${l.desc}</div>
+      </div>`;
+  });
+  document.getElementById('rpe-track').innerHTML = html;
+}
+
+function showRpeInfo(n) {
+  const desc = {6:'Confortável — você consegue manter uma conversa.',7:'Moderadamente difícil — respiração mais intensa.',8:'Difícil, mas com margem — poucas repetições a mais ainda seriam possíveis.',9:'Quase no limite — mais uma rep seria muito difícil.',10:'Esforço máximo — impossível continuar.'};
+  showToast(`RPE ${n}: ${desc[n]}`);
+}
+
+// ========================
+// GUIA RENDER
+// ========================
+function renderGuia() {
+  renderRpeScale();
+  let html = '';
+  guiaData.forEach((g, i) => {
+    html += `
+      <div class="guia-exercise" id="guia_${i}">
+        <div class="guia-header" onclick="toggleGuia(${i})">
+          <div>
+            <div class="guia-name">${g.nome}</div>
+            <div class="guia-focus">${g.foco}</div>
+          </div>
+          <div class="exercise-expand-icon">⌄</div>
+        </div>
+        <div class="guia-body">
+          <div class="guia-section">
+            <div class="guia-section-label">Como fazer</div>
+            <div class="guia-section-text">${g.como}</div>
+          </div>
+          <div class="guia-section">
+            <div class="guia-section-label">⚠ Erro comum</div>
+            <div class="guia-section-text erro">${g.erro}</div>
+          </div>
+          <div class="guia-section">
+            <div class="guia-section-label">💡 Dica prática</div>
+            <div class="guia-section-text dica">${g.dica}</div>
+          </div>
+        </div>
+      </div>`;
+  });
+  document.getElementById('guia-content').innerHTML = html;
+}
+
+function toggleGuia(i) {
+  document.getElementById(`guia_${i}`).classList.toggle('open');
+}
+
+// ========================
+// AVALIAÇÃO
+// ========================
+function changeWeek(delta) {
+  currentWeek = Math.max(1, Math.min(TOTAL_WEEKS, currentWeek + delta));
+  updateWeekUI();
+}
+
+function updateWeekUI() {
+  document.getElementById('week-label').textContent = `Semana ${currentWeek}`;
+  document.getElementById('week-date').textContent = weekDate(currentWeek);
+  document.getElementById('prev-week').disabled = currentWeek <= 1;
+  document.getElementById('next-week').disabled = currentWeek >= TOTAL_WEEKS;
+
+  const saved = state[`week_${currentWeek}`] || {};
+  document.getElementById('freq-input').value = saved.freq || '';
+  document.getElementById('semana-obs').value = saved.obs || '';
+
+  currentHumor = saved.humor || 3;
+  currentEnergia = saved.energia || 3;
+  document.getElementById('humor-slider').value = currentHumor;
+  document.getElementById('humor-val').textContent = currentHumor;
+  document.getElementById('energia-slider').value = currentEnergia;
+  document.getElementById('energia-val').textContent = currentEnergia;
+
+  currentStars = { dificuldade: saved.dificuldade||0, sono: saved.sono||0, alimentacao: saved.alimentacao||0 };
+  refreshStarUI('dificuldade');
+  refreshStarUI('sono');
+  refreshStarUI('alimentacao');
+
+  currentDor = saved.dor !== undefined ? saved.dor : null;
+  refreshDorUI();
+}
+
+function updateVolume(field, val) {
+  if (field === 'humor') { currentHumor = parseInt(val); document.getElementById('humor-val').textContent = val; }
+  if (field === 'energia') { currentEnergia = parseInt(val); document.getElementById('energia-val').textContent = val; }
+}
+
+function setStar(field, val) {
+  currentStars[field] = val;
+  refreshStarUI(field);
+}
+
+function refreshStarUI(field) {
+  document.querySelectorAll(`#${field}-stars .star-btn`).forEach((s,i) => s.classList.toggle('active', i < currentStars[field]));
+}
+
+function setLevel(field, val, btn) {
+  currentDor = val;
+  refreshDorUI();
+}
+
+function refreshDorUI() {
+  document.querySelectorAll('#dor-row .level-btn').forEach((b,i) => {
+    b.className = 'level-btn';
+    if (currentDor === i) b.classList.add(`sel-${i}`);
+  });
+}
+
+function saveWeek() {
+  state[`week_${currentWeek}`] = {
+    freq: document.getElementById('freq-input').value,
+    humor: currentHumor,
+    energia: currentEnergia,
+    dor: currentDor,
+    dificuldade: currentStars.dificuldade,
+    sono: currentStars.sono,
+    alimentacao: currentStars.alimentacao,
+    obs: document.getElementById('semana-obs').value,
+  };
+  saveState();
+  showToast('✓ Semana salva!');
+  renderHistorico();
+}
+
+// ========================
+// HISTÓRICO
+// ========================
+const dorLabels = ['Sem dor', 'Leve', 'Moderado', 'Forte'];
+const dorColors = ['#27AE60','#E8948A','#D97068','#C0392B'];
+
+function renderHistorico() {
+  let html = '';
+  let found = false;
+  for (let w = 1; w <= TOTAL_WEEKS; w++) {
+    const d = state[`week_${w}`];
+    if (!d || !d.freq) continue;
+    found = true;
+    const dorTxt = d.dor !== null && d.dor !== undefined ? `<span style="color:${dorColors[d.dor]};font-weight:600">${dorLabels[d.dor]}</span>` : '—';
+    html += `
+      <div class="hist-card">
+        <div class="hist-week">Semana ${w} <span style="font-size:11px;font-weight:400;color:var(--soft)">${weekDate(w)}</span></div>
+        <div class="hist-row"><span>Frequência</span><span class="hist-val">${d.freq} dias</span></div>
+        ${d.humor?`<div class="hist-row"><span>Humor</span><span class="hist-val">${'★'.repeat(d.humor)}${'☆'.repeat(5-d.humor)}</span></div>`:''}
+        ${d.energia?`<div class="hist-row"><span>Energia</span><span class="hist-val">${'★'.repeat(d.energia)}${'☆'.repeat(5-d.energia)}</span></div>`:''}
+        ${d.dificuldade?`<div class="hist-row"><span>Dificuldade</span><span class="hist-val">${'★'.repeat(d.dificuldade)}${'☆'.repeat(5-d.dificuldade)}</span></div>`:''}
+        <div class="hist-row"><span>Dor</span><span class="hist-val">${dorTxt}</span></div>
+        ${d.sono?`<div class="hist-row"><span>Sono</span><span class="hist-val">${'★'.repeat(d.sono)}${'☆'.repeat(5-d.sono)}</span></div>`:''}
+        ${d.alimentacao?`<div class="hist-row"><span>Alimentação</span><span class="hist-val">${'★'.repeat(d.alimentacao)}${'☆'.repeat(5-d.alimentacao)}</span></div>`:''}
+        ${d.obs?`<div class="hist-row" style="flex-direction:column;align-items:flex-start;gap:3px"><span>Obs.</span><span class="hist-val" style="max-width:100%;color:var(--charcoal)">${d.obs}</span></div>`:''}
+      </div>`;
+  }
+  if (!found) html = '<div class="historico-empty">Nenhuma semana registrada ainda.<br>Preencha a aba Semana para começar!</div>';
+  document.getElementById('historico-content').innerHTML = html;
+}
+
+// ========================
+// PAGE NAV
+// ========================
+function showPage(page, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`page-${page}`).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (page === 'guia') renderGuia();
+  if (page === 'historico') renderHistorico();
+  if (page === 'avaliacao') updateWeekUI();
+}
+
+// ========================
+// UTIL
+// ========================
+function saveState() {
+  try { localStorage.setItem('laurafit_state', JSON.stringify(state)); } catch(e) {}
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ========================
+// INIT
+// ========================
+updateTreinoWeekUI();
+renderTreino();
+updateWeekUI();
+</script>
+</body>
+</html>
